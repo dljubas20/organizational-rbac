@@ -58,7 +58,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "DarioLjubas\\OrganizationalRBAC\\OrganizationalRBACServiceProvider"
+                "DarioLjubas\\OrganizationalRBAC\\ServiceProvider"
             ],
             "aliases": {
                 "OrganizationalRBAC": "DarioLjubas\\OrganizationalRBAC\\Facades\\OrganizationalRBAC"

@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        $tableNames = config('organizational-rbac.table_names');
+        Schema::create($tableNames['organizations'], function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create($tableNames['roles'], function (Blueprint $table) use ($tableNames) {
+            $table->id();
+            $table->foreignId('organization_id')->nullable()->constrained($tableNames['organizations']);
+            $table->string('name', 50);
+            $table->timestamps();
+        });
+
+        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create($tableNames['role_permissions'], function (Blueprint $table) use ($tableNames) {
+            $table->foreignId('role_id')->constrained($tableNames['roles']);
+            $table->foreignId('permission_id')->constrained($tableNames['permissions']);
+            $table->primary(['role_id', 'permission_id']);
+            $table->timestamps();
+        });
+
+        Schema::create($tableNames['organization_user_roles'], function (Blueprint $table) use ($tableNames) {
+            $table->foreignId('organization_id')->constrained($tableNames['organizations']);
+            $table->foreignId('user_id')->constrained($tableNames['users']);
+            $table->foreignId('role_id')->constrained($tableNames['roles']);
+            $table->primary(['organization_id', 'user_id', 'role_id']);
+            $table->timestamps();
+        });
+    }
+};

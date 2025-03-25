@@ -2,6 +2,7 @@
 
 return [
     'table_names' => [
+        'users' => 'users',
         'roles' => 'roles',
         'permissions' => 'permissions',
         'organizations' => 'organizations',

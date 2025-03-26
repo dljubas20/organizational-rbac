@@ -17,7 +17,12 @@ class Role extends Model
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class)->withTimestamps();
+        return $this->belongsToMany(
+            Permission::class,
+            config('organizational-rbac.table_names')['role_permissions'],
+            'role_id',
+            'permission_id'
+        )->withTimestamps();
     }
 
     public function organization(): BelongsTo

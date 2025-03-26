@@ -23,4 +23,11 @@ class Organization extends Model
             'user_id'
         )->withTimestamps();
     }
+    
+    public function usersWithRole($role): BelongsToMany
+    {
+        $roleId = $role instanceof Role ? $role->id : $role;
+        return $this->users()
+            ->wherePivot('role_id', $roleId);
+    }
 }

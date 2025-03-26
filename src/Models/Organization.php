@@ -3,6 +3,7 @@
 namespace DarioLjubas\OrganizationalRBAC\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Organization extends Model
 {
@@ -11,5 +12,15 @@ class Organization extends Model
         parent::__construct($attributes);
 
         $this->table = config('organizational-rbac.table_names')['organizations'] ?? parent::getTable();
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            config('organizational-rbac.models')['user'],
+            config('organizational-rbac.table_names')['organization_user_roles'],
+            'organization_id',
+            'user_id'
+        )->withTimestamps();
     }
 }

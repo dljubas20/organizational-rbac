@@ -8,5 +8,9 @@ return [
         'organizations' => 'organizations',
         'role_permissions' => 'role_permissions',
         'organization_user_roles' => 'organization_user_roles',
-    ]
+    ],
+
+    'models' => [
+        'user' => \App\Models\User::class // default, change if needed
+    ],
 ];

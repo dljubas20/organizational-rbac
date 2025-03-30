@@ -40,4 +40,22 @@ class Role extends Model
         )->withTimestamps()
         ->distinct();
     }
+
+    public function assignPermission($permission): void
+    {
+        $pId = $permission instanceof Permission ? $permission->id : $permission;
+
+        if (!$this->permissions()->get()->contains($pId)) {
+            $this->permissions()->attach($pId);
+        }
+    }
+
+    public function removePermission($permission): void
+    {
+        $pId = $permission instanceof Permission ? $permission->id : $permission;
+
+        if ($this->permissions()->get()->contains($pId)) {
+            $this->permissions()->detach($pId);
+        }
+    }
 }

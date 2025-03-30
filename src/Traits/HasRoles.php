@@ -38,6 +38,21 @@ trait HasRoles
         ->distinct();
     }
 
+    public function hasRole($role): bool
+    {
+        $roleId = $role instanceof Role ? $role->id : $role;
+
+        return $this->roles()->get()->contains($roleId);
+    }
+
+    public function hasRoleInOrganization($org, $role): bool
+    {
+        $roleId = $role instanceof Role ? $role->id : $role;
+        $orgId = $org instanceof Organization ? $org->id : $org;
+
+        return $this->rolesInOrganization($orgId)->get()->contains($roleId);
+    }
+
     public function hasPermission(string $permission): bool
     {
         foreach ($this->roles as $r) {

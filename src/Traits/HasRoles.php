@@ -2,7 +2,7 @@
 
 namespace DarioLjubas\OrganizationalRBAC\Traits;
 
-use DarioLjubas\OrganizationalRBAC\Models\Permission;
+use DarioLjubas\OrganizationalRBAC\Models\Organization;
 use DarioLjubas\OrganizationalRBAC\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -17,6 +17,14 @@ trait HasRoles
             'role_id'
         )->withTimestamps()
         ->distinct();
+    }
+
+    public function rolesInOrganization($org): BelongsToMany
+    {
+        $orgId = $org instanceof Organization ? $org->id : $org;
+
+        return $this->roles()
+            ->wherePivot('organization_id', $orgId);
     }
 
     public function hasPermission(string $permission): bool

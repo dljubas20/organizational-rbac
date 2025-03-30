@@ -4,6 +4,7 @@ namespace DarioLjubas\OrganizationalRBAC\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organization extends Model
 {
@@ -31,5 +32,10 @@ class Organization extends Model
         $roleId = $role instanceof Role ? $role->id : $role;
         return $this->users()
             ->wherePivot('role_id', $roleId);
+    }
+
+    public function roles(): HasMany
+    {
+        return $this->hasMany(Role::class);
     }
 }

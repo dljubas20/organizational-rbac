@@ -21,7 +21,9 @@ class Organization extends Model
             config('organizational-rbac.table_names')['organization_user_roles'],
             'organization_id',
             'user_id'
-        )->withTimestamps();
+        )->withTimestamps()
+        ->withPivot('role_id')
+        ->distinct();
     }
     
     public function usersWithRole($role): BelongsToMany

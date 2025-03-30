@@ -29,4 +29,15 @@ class Role extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function organizations(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Organization::class,
+            config('organizational-rbac.table_names')['organization_user_roles'],
+            'role_id',
+            'organization_id'
+        )->withTimestamps()
+        ->distinct();
+    }
 }
